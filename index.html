@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Функциональный JavaScript</title>
+</head>
+<body>
+
+    <h1>JavaScript - ECMAScript (Семинар 1)</h1>
+
+    <h2>1. Нахождение минимального числа в массиве</h2>
+    <p id="min-number"></p>
+
+    <h2>2. Создание счетчика</h2>
+    <button onclick="incrementCounter()">+1</button>
+    <button onclick="decrementCounter()">-1</button>
+    <p>Значение счетчика: <span id="counter-value">0</span></p>
+
+    <h2>3. Рекурсивный поиск элемента по классу</h2>
+    <div id="root">
+        <div>
+            <p class="not-this">Просто текст</p>
+            <div>
+                <span class="my-class">Искомый элемент</span>
+            </div>
+        </div>
+    </div>
+    <p>Найденный элемент: <span id="found-element"></span></p>
+
+    <script>
+        // --- Задание 1: Нахождение минимального числа в массиве ---
+        const arr = [1, 5, 7, 9];
+        const minNumber = Math.min(...arr);
+        document.getElementById('min-number').textContent = `Минимальное число: ${minNumber}`;
+        console.log(minNumber); // 1
+
+        // --- Задание 2: Создание счетчика ---
+        function createCounter() {
+            let count = 0; 
+
+            return {
+                increment() {
+                    return ++count;
+                },
+                decrement() {
+                    return --count;
+                },
+                getValue() {
+                    return count;
+                }
+            };
+        }
+
+        const counter = createCounter();
+
+        function incrementCounter() {
+            document.getElementById('counter-value').textContent = counter.increment();
+        }
+
+        function decrementCounter() {
+            document.getElementById('counter-value').textContent = counter.decrement();
+        }
+
+        // --- Задание 3: Рекурсивный поиск элемента по классу ---
+        function findElementByClass(root, className) {
+            if (root.classList.contains(className)) {
+                return root;
+            }
+            
+            for (let child of root.children) {
+                const found = findElementByClass(child, className);
+                if (found) {
+                    return found;
+                }
+            }
+            
+            return null;
+        }
+
+        const rootElement = document.getElementById('root');
+        const targetElement = findElementByClass(rootElement, 'my-class');
+        document.getElementById('found-element').textContent = targetElement ? targetElement.textContent : 'Элемент не найден';
+        console.log(targetElement);
+    </script>
+
+</body>
+</html>
